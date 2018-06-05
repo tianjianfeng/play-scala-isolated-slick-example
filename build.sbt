@@ -1,3 +1,4 @@
+
 name := """play-isolated-slick"""
 
 version := "1.1-SNAPSHOT"
@@ -5,6 +6,10 @@ version := "1.1-SNAPSHOT"
 scalaVersion := "2.12.6"
 
 crossScalaVersions := Seq("2.11.12", "2.12.4")
+
+resolvers += Resolver.jcenterRepo
+
+swaggerDomainNameSpaces := Seq("models")
 
 lazy val flyway = (project in file("modules/flyway"))
   .enablePlugins(FlywayPlugin)
@@ -18,7 +23,7 @@ lazy val slick = (project in file("modules/slick"))
   .dependsOn(api)
 
 lazy val root = (project in file("."))
-  .enablePlugins(PlayScala)
+  .enablePlugins(PlayScala, SwaggerPlugin)
   .aggregate(slick)
   .dependsOn(slick)
 
@@ -31,5 +36,6 @@ libraryDependencies += "com.h2database" % "h2" % "1.4.197"
 fork in Test := true
 libraryDependencies += "org.flywaydb" % "flyway-core" % "5.0.3"
 libraryDependencies += "com.typesafe.play" %% "play-ahc-ws" % "2.6.10" % Test
+libraryDependencies += "org.webjars" % "swagger-ui" % "3.14.0"
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 
